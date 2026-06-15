@@ -1,0 +1,10 @@
+# Generated CSV export files
+output/*.csv
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
