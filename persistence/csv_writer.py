@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 2
+Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
@@ -9,24 +9,25 @@ Author: Ren
 References:
 [1] Python Software Foundation, "uuid — UUID objects according to RFC 9562," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/uuid.html
-    [Accessed: Jun. 14, 2026].
-[2] R. Oliveira, "GUID vs UUID vs ULID: Understanding Unique Identifiers," medium.com,
-    [online]. Available: https://medium.com/@ronaldo.oliver7/guid-vs-uuid-vs-ulid-understanding-unique-identifiers-565c88cdca13
-    [Accessed: Jun. 14, 2026].
-[3] Python Software Foundation, "csv — CSV File Reading and Writing," docs.python.org,
+    [Accessed: Jun. 20, 2026].
+[2] Python Software Foundation, "csv — CSV File Reading and Writing," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/csv.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
+[3] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
+    [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
+    [Accessed: Jun. 20, 2026].
 """
 
 import csv
 import uuid
+from collections.abc import Iterable
 from pathlib import Path
 
 from model.natural_gas_record import CSV_FIELD_NAMES, NaturalGasRecord
 
 
 def save_records_to_csv(
-    records: list[NaturalGasRecord],
+    records: Iterable[NaturalGasRecord],
     output_directory: Path,
 ) -> Path:
     """
