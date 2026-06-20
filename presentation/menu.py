@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 2
+Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
@@ -9,10 +9,10 @@ Author: Ren
 References:
 [1] Python Software Foundation, "input — Input Functions," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/functions.html#input
-    [Accessed: Jun. 14, 2026].
-[2] K. Fakhroutdinov, "Multi-Layered Application: UML Model Diagram Example," uml-diagrams.org,
-    [online]. Available: https://www.uml-diagrams.org/multi-layered-application-uml-model-diagram-example.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
+[2] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
+    [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
+    [Accessed: Jun. 20, 2026].
 """
 
 from pathlib import Path
@@ -54,7 +54,8 @@ class MenuController:
         """Display the author name so it remains visible during program output."""
         print("=" * 72)
         print(f"Program by {self._author_name}")
-        print("CST8002 Practical Project Part 2 - Natural Gas Production Records")
+        print("CST8002 Practical Project Part 3 - Natural Gas Production Records")
+        print("In-memory collection: Singly Linked List")
         print(f"Loaded records in memory: {self._record_service.get_record_count()}")
         print("=" * 72)
         print()

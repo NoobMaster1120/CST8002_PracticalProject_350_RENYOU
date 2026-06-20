@@ -1,4 +1,4 @@
-"""Presentation layer user interface for CST8002 Practical Project Part 2."""
+"""Presentation layer user interface for CST8002 Practical Project Part 3."""
 
 from presentation.menu import MenuController
 
