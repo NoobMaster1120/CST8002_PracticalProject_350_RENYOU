@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 2
+Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
@@ -9,10 +9,10 @@ Author: Ren
 References:
 [1] Python Software Foundation, "csv — CSV File Reading and Writing," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/csv.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
 [2] Python Software Foundation, "8. Errors and Exceptions," Python Tutorial, docs.python.org,
     [online]. Available: https://docs.python.org/3/tutorial/errors.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
 """
 
 import csv

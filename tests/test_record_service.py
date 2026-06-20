@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 2
+Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
@@ -9,10 +9,10 @@ Author: Ren
 References:
 [1] Python Software Foundation, "unittest — Unit testing framework," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/unittest.html
-    [Accessed: Jun. 14, 2026].
-[2] Python Software Foundation, "csv — CSV File Reading and Writing," docs.python.org,
-    [online]. Available: https://docs.python.org/3/library/csv.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
+[2] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
+    [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
+    [Accessed: Jun. 20, 2026].
 """
 
 import tempfile
@@ -21,6 +21,7 @@ from pathlib import Path
 
 from business.record_service import RecordService
 from model.natural_gas_record import NaturalGasRecord
+from model.singly_linked_list import SinglyLinkedList
 from persistence.csv_reader import load_records_from_csv
 
 
@@ -66,6 +67,41 @@ class TestRecordService(unittest.TestCase):
 
         with self.assertRaises(FileNotFoundError):
             load_records_from_csv(missing_file)
+
+
+class TestSinglyLinkedList(unittest.TestCase):
+    """Unit tests for the custom singly linked list data structure."""
+
+    def test_append_and_get_store_records_in_order(self) -> None:
+        """Verify append and get preserve insertion order."""
+        linked_list: SinglyLinkedList[int] = SinglyLinkedList()
+        linked_list.append(10)
+        linked_list.append(20)
+        linked_list.append(30)
+
+        self.assertEqual(len(linked_list), 3)
+        self.assertEqual(linked_list.get(0), 10)
+        self.assertEqual(linked_list.get(2), 30)
+
+    def test_delete_removes_middle_node(self) -> None:
+        """Verify delete removes the requested node and returns its data."""
+        linked_list: SinglyLinkedList[str] = SinglyLinkedList()
+        linked_list.append("first")
+        linked_list.append("second")
+        linked_list.append("third")
+
+        removed = linked_list.delete(1)
+
+        self.assertEqual(removed, "second")
+        self.assertEqual(linked_list.to_list(), ["first", "third"])
+
+    def test_replace_all_rebuilds_list_contents(self) -> None:
+        """Verify replace_all clears old nodes and stores a new sequence."""
+        linked_list: SinglyLinkedList[int] = SinglyLinkedList()
+        linked_list.append(1)
+        linked_list.replace_all([4, 5, 6])
+
+        self.assertEqual(linked_list.to_list(), [4, 5, 6])
 
 
 if __name__ == "__main__":
