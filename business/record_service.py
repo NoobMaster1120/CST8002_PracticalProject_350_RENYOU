@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 2
+Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
@@ -9,29 +9,30 @@ Author: Ren
 References:
 [1] K. Fakhroutdinov, "Multi-Layered Application: UML Model Diagram Example," uml-diagrams.org,
     [online]. Available: https://www.uml-diagrams.org/multi-layered-application-uml-model-diagram-example.html
-    [Accessed: Jun. 14, 2026].
-[2] Python Software Foundation, "Built-in Types," docs.python.org,
-    [online]. Available: https://docs.python.org/3/library/stdtypes.html
-    [Accessed: Jun. 14, 2026].
+    [Accessed: Jun. 20, 2026].
+[2] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
+    [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
+    [Accessed: Jun. 20, 2026].
 """
 
 from pathlib import Path
 
 from model.natural_gas_record import NaturalGasRecord
+from model.singly_linked_list import NaturalGasLinkedList
 from persistence.csv_reader import DEFAULT_RECORD_LIMIT, load_records_from_csv
 from persistence.csv_writer import save_records_to_csv
 
 
 class RecordService:
     """
-    Business layer service that manages the in-memory list of record objects.
+    Business layer service that manages the in-memory singly linked list of records.
 
     All CRUD operations on records are handled here instead of in the presentation layer.
     """
 
     def __init__(self) -> None:
         """Initialize an empty in-memory record collection."""
-        self._records: list[NaturalGasRecord] = []
+        self._records: NaturalGasLinkedList = NaturalGasLinkedList()
 
     def get_record_count(self) -> int:
         """Return the number of records currently stored in memory."""
@@ -39,7 +40,7 @@ class RecordService:
 
     def get_all_records(self) -> list[NaturalGasRecord]:
         """Return a copy of all records currently stored in memory."""
-        return list(self._records)
+        return self._records.to_list()
 
     def get_record(self, one_based_index: int) -> NaturalGasRecord:
         """
@@ -54,7 +55,7 @@ class RecordService:
         Raises:
             IndexError: If the requested record number is out of range.
         """
-        return self._records[one_based_index - 1]
+        return self._records.get(one_based_index - 1)
 
     def reload_from_dataset(
         self,
@@ -71,12 +72,13 @@ class RecordService:
         Returns:
             Number of records loaded into memory.
         """
-        self._records = load_records_from_csv(dataset_path, record_limit)
+        loaded_records = load_records_from_csv(dataset_path, record_limit)
+        self._records.replace_all(loaded_records)
         return len(self._records)
 
     def add_record(self, record: NaturalGasRecord) -> None:
         """
-        Append a new record object to the in-memory collection.
+        Append a new record object to the in-memory linked list.
 
         Args:
             record: Parsed record object to store.
@@ -85,7 +87,7 @@ class RecordService:
 
     def update_record(self, one_based_index: int, record: NaturalGasRecord) -> None:
         """
-        Replace an existing record in the in-memory collection.
+        Replace an existing record in the in-memory linked list.
 
         Args:
             one_based_index: User-facing record number starting at 1.
@@ -94,11 +96,11 @@ class RecordService:
         Raises:
             IndexError: If the requested record number is out of range.
         """
-        self._records[one_based_index - 1] = record
+        self._records.set(one_based_index - 1, record)
 
     def delete_record(self, one_based_index: int) -> NaturalGasRecord:
         """
-        Remove a record from the in-memory collection.
+        Remove a record from the in-memory linked list.
 
         Args:
             one_based_index: User-facing record number starting at 1.
@@ -109,7 +111,7 @@ class RecordService:
         Raises:
             IndexError: If the requested record number is out of range.
         """
-        return self._records.pop(one_based_index - 1)
+        return self._records.delete(one_based_index - 1)
 
     def persist_to_disk(self, output_directory: Path) -> Path:
         """
