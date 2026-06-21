@@ -4,7 +4,7 @@ Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
-Author: Ren
+Author: REN YOU
 
 References:
 [1] Python Software Foundation, "8. Classes," Python Tutorial, docs.python.org,

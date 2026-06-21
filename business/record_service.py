@@ -4,7 +4,7 @@ Practical Project Part 3
 
 Professor: Update with your professor's name from Brightspace
 Due Date: See Brightspace for due date
-Author: Ren
+Author: REN YOU
 
 References:
 [1] K. Fakhroutdinov, "Multi-Layered Application: UML Model Diagram Example," uml-diagrams.org,
