@@ -22,7 +22,7 @@ from business.record_service import RecordService
 from persistence.csv_reader import DEFAULT_RECORD_LIMIT
 from presentation.menu import MenuController
 
-AUTHOR_NAME = "Ren"
+AUTHOR_NAME = "REN YOU"
 DATASET_FILE = Path(__file__).resolve().parent / "data" / "download.csv"
 OUTPUT_DIRECTORY = Path(__file__).resolve().parent / "output"
 
