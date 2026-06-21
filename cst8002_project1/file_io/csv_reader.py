@@ -2,8 +2,6 @@
 CST8002 Programming Language Research Project
 Practical Project Part 1
 
-Professor: Update with your professor's name from Brightspace
-Due Date: See Brightspace for due date
 Author: Ren
 
 References:
