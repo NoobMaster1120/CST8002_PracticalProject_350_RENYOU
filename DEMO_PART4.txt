@@ -1,0 +1,73 @@
+CST8002 Practical Project Part 4 — Lab Demo Cheat Sheet
+Author: REN YOU | Branch: project4 | Feature: Vertical Bar Chart
+
+============================================================
+BEFORE LAB
+============================================================
+1. Open terminal in: c:\Users\Renyo\Projects\scanner-dashboard
+2. Make sure you are on project4:
+     git checkout project4
+3. Run:
+     python main.py
+4. Confirm header shows:
+     Program by REN YOU
+     Practical Project Part 4
+     Singly Linked List
+     Vertical Bar Chart
+
+============================================================
+DEMO FLOW (what to click / type)
+============================================================
+A) Show old features still work
+   4  -> display multiple records (linked list still stores data)
+   3  -> display one record
+   Optional: 5 create, 6 edit, 7 delete, 1 reload, 2 save
+
+B) Show Part 4 novel feature
+   8  -> Create vertical bar chart
+   Choose grouping:
+     1 = CSD
+     2 = Period
+   Enter max bars, example: 10
+   Show ASCII chart in console + matplotlib window
+   Point out your name is in the chart title
+   Close chart window to continue
+   Run option 8 again with the OTHER grouping field
+
+============================================================
+LIKELY QUESTIONS — SHORT ANSWERS
+============================================================
+Q: Why did you choose an API/library?
+A: I used free matplotlib for the vertical bars. My own code still does
+   aggregation in RecordService from the singly linked list. Presentation
+   only asks the user options and calls the chart view.
+
+Q: Why not write all chart logic yourself?
+A: ASCII fallback is my own console chart. Matplotlib is free/open-source
+   and better for a clear vertical bar chart demonstration.
+
+Q: Where is the layering?
+A: Menu (presentation) -> RecordService.aggregate_original_value_by
+   (business) -> linked list records (model) -> chart_view render
+   (presentation). Not one giant method.
+
+Q: What was Part 3 topic?
+A: Custom Singly Linked List replacing Python list for in-memory records.
+
+============================================================
+IF THEY ASK YOU TO MODIFY THE CHART
+============================================================
+Easy changes you can do live:
+- Change top_n bars (menu already asks)
+- Switch CSD <-> Period (menu already asks)
+- In chart_view.py, change bar color "steelblue" to "orange"
+- Change chart title text in render_vertical_bar_chart()
+
+============================================================
+FILES TO MENTION
+============================================================
+presentation/menu.py          menu option 8 + user prompts
+business/record_service.py    aggregate_original_value_by()
+presentation/chart_view.py    matplotlib + ASCII chart
+model/singly_linked_list.py   Part 3 data structure still used
+output/vertical_bar_chart.png saved chart image
