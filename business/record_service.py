@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 3
+Practical Project Part 4
 
 Author: REN YOU
 
@@ -11,6 +11,10 @@ References:
 [2] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
     [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
     [Accessed: Jun. 20, 2026].
+[3] Matplotlib Development Team, "Bar charts," matplotlib.org,
+    [online]. Available:
+    https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html
+    [Accessed: Aug. 14, 2026].
 """
 
 from pathlib import Path
@@ -19,6 +23,8 @@ from model.natural_gas_record import NaturalGasRecord
 from model.singly_linked_list import NaturalGasLinkedList
 from persistence.csv_reader import DEFAULT_RECORD_LIMIT, load_records_from_csv
 from persistence.csv_writer import save_records_to_csv
+
+SUPPORTED_CHART_GROUP_FIELDS = ("CSD", "Period")
 
 
 class RecordService:
@@ -122,3 +128,42 @@ class RecordService:
             Path to the newly created CSV file.
         """
         return save_records_to_csv(self._records, output_directory)
+
+    def aggregate_original_value_by(
+        self,
+        group_by_field: str,
+        top_n: int | None = None,
+    ) -> list[tuple[str, float]]:
+        """
+        Aggregate OriginalValue totals from the linked list by one category field.
+
+        Args:
+            group_by_field: Dataset column used for grouping (CSD or Period).
+            top_n: Optional maximum number of categories to return after sorting
+                by total descending. None returns all categories.
+
+        Returns:
+            List of (label, total_original_value) pairs sorted by total descending.
+
+        Raises:
+            ValueError: If group_by_field is not a supported chart grouping field.
+        """
+        if group_by_field not in SUPPORTED_CHART_GROUP_FIELDS:
+            raise ValueError(
+                f"Unsupported chart group field: {group_by_field}. "
+                f"Choose one of: {', '.join(SUPPORTED_CHART_GROUP_FIELDS)}"
+            )
+
+        totals: dict[str, float] = {}
+        for record in self._records:
+            if group_by_field == "CSD":
+                label = record.get_CSD()
+            else:
+                label = str(record.get_Period())
+
+            totals[label] = totals.get(label, 0.0) + record.get_OriginalValue()
+
+        sorted_totals = sorted(totals.items(), key=lambda item: item[1], reverse=True)
+        if top_n is not None:
+            return sorted_totals[:top_n]
+        return sorted_totals
