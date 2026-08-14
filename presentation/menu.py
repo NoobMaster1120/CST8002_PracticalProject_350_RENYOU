@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 3
+Practical Project Part 4
 
 Author: REN YOU
 
@@ -11,13 +11,21 @@ References:
 [2] GeeksforGeeks, "Types of Linked List," geeksforgeeks.org,
     [online]. Available: https://www.geeksforgeeks.org/dsa/types-of-linked-list/
     [Accessed: Jun. 20, 2026].
+[3] Matplotlib Development Team, "Bar charts," matplotlib.org,
+    [online]. Available:
+    https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html
+    [Accessed: Aug. 14, 2026].
+[4] Matplotlib Development Team, "Matplotlib license," matplotlib.org,
+    [online]. Available: https://matplotlib.org/stable/users/project/license.html
+    [Accessed: Aug. 14, 2026].
 """
 
 from pathlib import Path
 
-from business.record_service import RecordService
+from business.record_service import SUPPORTED_CHART_GROUP_FIELDS, RecordService
 from model.natural_gas_record import NaturalGasRecord
 from persistence.csv_reader import DEFAULT_RECORD_LIMIT
+from presentation.chart_view import print_ascii_bar_chart, render_vertical_bar_chart
 
 
 class MenuController:
@@ -52,8 +60,9 @@ class MenuController:
         """Display the author name so it remains visible during program output."""
         print("=" * 72)
         print(f"Program by {self._author_name}")
-        print("CST8002 Practical Project Part 3 - Natural Gas Production Records")
+        print("CST8002 Practical Project Part 4 - Natural Gas Production Records")
         print("In-memory collection: Singly Linked List")
+        print("Part 4 feature: Vertical Bar Chart (matplotlib)")
         print(f"Loaded records in memory: {self._record_service.get_record_count()}")
         print("=" * 72)
         print()
@@ -68,6 +77,7 @@ class MenuController:
         print("  5. Create a new record")
         print("  6. Edit a record")
         print("  7. Delete a record")
+        print("  8. Create vertical bar chart")
         print("  0. Exit")
         print()
 
@@ -257,6 +267,91 @@ class MenuController:
         print(f"Deleted record {record_number}: {removed_record}")
         print()
 
+    def create_vertical_bar_chart(self) -> None:
+        """
+        Ask the user how to customize a vertical bar chart, then render it.
+
+        Aggregation happens in the business layer. Matplotlib rendering and the
+        ASCII fallback live in the presentation chart view module.
+        """
+        if self._record_service.get_record_count() == 0:
+            print("No records are currently loaded in memory.")
+            print()
+            return
+
+        print(f"Program by {self._author_name}")
+        print("Create a vertical bar chart of OriginalValue totals.")
+        print("Choose a grouping field:")
+        print("  1. CSD")
+        print("  2. Period")
+        field_choice = input("Enter choice (1 or 2): ").strip()
+
+        if field_choice == "1":
+            group_by_field = "CSD"
+        elif field_choice == "2":
+            group_by_field = "Period"
+        else:
+            print("Invalid grouping choice.")
+            print()
+            return
+
+        top_n = self._read_int(
+            "Enter max number of bars to show (for example 10): "
+        )
+        if top_n <= 0:
+            print("Number of bars must be greater than zero.")
+            print()
+            return
+
+        try:
+            aggregated = self._record_service.aggregate_original_value_by(
+                group_by_field,
+                top_n=top_n,
+            )
+        except ValueError as error:
+            print(f"Error: {error}")
+            print()
+            return
+
+        if not aggregated:
+            print("No chart data could be produced from the loaded records.")
+            print()
+            return
+
+        labels = [item[0] for item in aggregated]
+        values = [item[1] for item in aggregated]
+
+        print(
+            f"Prepared {len(labels)} bar(s) grouped by {group_by_field} "
+            f"from the singly linked list."
+        )
+        print(f"Supported fields: {', '.join(SUPPORTED_CHART_GROUP_FIELDS)}")
+        print()
+
+        print_ascii_bar_chart(
+            labels=labels,
+            values=values,
+            group_by_field=group_by_field,
+            author_name=self._author_name,
+        )
+
+        try:
+            chart_path = render_vertical_bar_chart(
+                labels=labels,
+                values=values,
+                group_by_field=group_by_field,
+                author_name=self._author_name,
+                output_directory=self._output_directory,
+                show_window=True,
+            )
+            print(f"Vertical bar chart saved to: {chart_path}")
+            print("Close the chart window to continue using the menu.")
+            print()
+        except Exception as error:
+            print(f"Matplotlib chart window could not be shown: {error}")
+            print("ASCII chart above can still be used for the demonstration.")
+            print()
+
     def run(self) -> None:
         """Run the interactive menu until the user chooses to exit."""
         while True:
@@ -278,6 +373,8 @@ class MenuController:
                 self.edit_record()
             elif choice == "7":
                 self.delete_record()
+            elif choice == "8":
+                self.create_vertical_bar_chart()
             elif choice == "0":
                 print(f"Program by {self._author_name}")
                 print("Exiting program.")

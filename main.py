@@ -1,6 +1,6 @@
 """
 CST8002 Programming Language Research Project
-Practical Project Part 3
+Practical Project Part 4
 
 Author: REN YOU
 
@@ -11,6 +11,13 @@ References:
 [2] Python Software Foundation, "csv — CSV File Reading and Writing," docs.python.org,
     [online]. Available: https://docs.python.org/3/library/csv.html
     [Accessed: Jun. 20, 2026].
+[3] Matplotlib Development Team, "Bar charts," matplotlib.org,
+    [online]. Available:
+    https://matplotlib.org/stable/gallery/lines_bars_and_markers/bar_colors.html
+    [Accessed: Aug. 14, 2026].
+[4] Matplotlib Development Team, "Matplotlib license," matplotlib.org,
+    [online]. Available: https://matplotlib.org/stable/users/project/license.html
+    [Accessed: Aug. 14, 2026].
 """
 
 import sys
